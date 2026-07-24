@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pitflow-registry
+  labels:
+    app: pitflow-registry
+spec:
+  selector:
+    app: pitflow-registry
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: ClusterIP

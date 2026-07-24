@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: pitflow-registry
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:pitflow-registry-db}
+    username: ${DB_USERNAME:pitflow_registry}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    enabled: true
+
+server:
+  forward-headers-strategy: framework
+
+api:
+  security:
+    token:
+      secret: ${JWT_SECRET}
+      expiration-hours: 3
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics
+  endpoint:
+    health:
+      show-details: never
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      service: pitflow-registry
+  datadog:
+    metrics:
+      export:
+        enabled: ${DATADOG_ENABLED:false}
+        api-key: ${DATADOG_API_KEY:}
+        uri: https://api.us5.datadoghq.com
+        step: 30s

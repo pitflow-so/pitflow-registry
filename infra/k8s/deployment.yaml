@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pitflow-registry
+  labels:
+    app: pitflow-registry
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: pitflow-registry
+  template:
+    metadata:
+      labels:
+        app: pitflow-registry
+        tags.datadoghq.com/env: "producao"
+        tags.datadoghq.com/service: "pitflow-registry"
+        tags.datadoghq.com/version: "${IMAGE_VERSION}"
+      annotations:
+        admission.datadoghq.com/java-lib.version: "latest"
+    spec:
+      containers:
+        - name: pitflow-registry
+          image: "${CONTAINER_IMAGE}"
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "384Mi"
+            limits:
+              cpu: "600m"
+              memory: "768Mi"
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-XX:MaxRAMPercentage=75 -XX:InitialRAMPercentage=50"
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: pitflow-registry-config
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: pitflow-registry-config
+                  key: DB_PORT
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: pitflow-registry-config
+                  key: DB_NAME
+            - name: DB_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: pitflow-registry-config
+                  key: DB_USERNAME
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pitflow-registry-secrets
+                  key: DB_PASSWORD
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: pitflow-registry-secrets
+                  key: JWT_SECRET
+            - name: DATADOG_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: pitflow-registry-secrets
+                  key: DATADOG_API_KEY
+            - name: DATADOG_ENABLED
+              value: "true"
+          startupProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            failureThreshold: 18
+            periodSeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            periodSeconds: 10
+            failureThreshold: 3
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            periodSeconds: 15
+            failureThreshold: 3
+            timeoutSeconds: 5
