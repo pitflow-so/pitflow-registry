@@ -2,6 +2,13 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: pitflow-registry
+  namespace: pitflow
+  labels:
+    app.kubernetes.io/name: pitflow-registry
+    app.kubernetes.io/instance: pitflow-registry
+    app.kubernetes.io/component: registry
+    app.kubernetes.io/part-of: pitflow
+    app.kubernetes.io/managed-by: github-actions
 spec:
   scaleTargetRef:
     apiVersion: apps/v1

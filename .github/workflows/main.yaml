@@ -144,4 +144,6 @@ jobs:
           envsubst < infra/k8s/deployment.yaml | kubectl apply -f -
           kubectl apply -f infra/k8s/ingress.yaml
           kubectl apply -f infra/k8s/hpa.yaml
-          kubectl rollout status deployment/pitflow-registry --timeout=600s
+          kubectl rollout status deployment/pitflow-registry \
+            --namespace pitflow \
+            --timeout=600s

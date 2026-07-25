@@ -2,8 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: pitflow-registry
+  namespace: pitflow
   labels:
-    app: pitflow-registry
+    app.kubernetes.io/name: pitflow-registry
+    app.kubernetes.io/instance: pitflow-registry
+    app.kubernetes.io/component: registry
+    app.kubernetes.io/part-of: pitflow
+    app.kubernetes.io/managed-by: github-actions
 spec:
   replicas: 1
   strategy:
@@ -13,11 +18,16 @@ spec:
       maxSurge: 1
   selector:
     matchLabels:
-      app: pitflow-registry
+      app.kubernetes.io/name: pitflow-registry
+      app.kubernetes.io/instance: pitflow-registry
   template:
     metadata:
       labels:
-        app: pitflow-registry
+        app.kubernetes.io/name: pitflow-registry
+        app.kubernetes.io/instance: pitflow-registry
+        app.kubernetes.io/component: registry
+        app.kubernetes.io/part-of: pitflow
+        app.kubernetes.io/managed-by: github-actions
         tags.datadoghq.com/env: "producao"
         tags.datadoghq.com/service: "pitflow-registry"
         tags.datadoghq.com/version: "${IMAGE_VERSION}"

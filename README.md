@@ -72,6 +72,7 @@ registry-<commit-sha>
 
 O pipeline aplica:
 
+- recursos no namespace compartilhado `pitflow`;
 - `ConfigMap` e `Secret` próprios;
 - `Deployment`;
 - `Service` do tipo `ClusterIP`;
