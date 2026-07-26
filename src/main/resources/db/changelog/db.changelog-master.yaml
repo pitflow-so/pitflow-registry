@@ -8,8 +8,6 @@ databaseChangeLog:
   - include:
       file: db/changelog/migrations/007-alter-table-customer-add-email.sql
   - include:
-      file: db/changelog/migrations/008-updated-email-in-customer.sql
+      file: db/changelog/migrations/008-alter-table-customer-add-status.sql
   - include:
-      file: db/changelog/migrations/009-update-email-other-base-customers.sql
-  - include:
-      file: db/changelog/migrations/010-alter-table-customer-add-status.sql
+      file: db/changelog/migrations/009-insert-default-customers.sql
