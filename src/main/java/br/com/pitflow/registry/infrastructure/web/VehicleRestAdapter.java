@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/registry/vehicles")
+@RequestMapping("/vehicles")
 @Tag(name = "Registry - Vehicles", description = "Gerenciamento do cadastro de veículos dos clientes")
 //@SecurityRequirement(name = "bearerAuth") // Protege a classe toda por padrão
 public class VehicleRestAdapter {

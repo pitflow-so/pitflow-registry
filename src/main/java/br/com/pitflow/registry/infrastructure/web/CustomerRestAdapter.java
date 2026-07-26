@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/registry/customers")
+@RequestMapping("/customers")
 @Tag(name = "Registry - Customers", description = "Gerenciamento de clientes")
 public class CustomerRestAdapter {
 

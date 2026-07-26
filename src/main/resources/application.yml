@@ -19,6 +19,8 @@ spring:
     enabled: true
 
 server:
+  servlet:
+    context-path: /registry
   forward-headers-strategy: framework
 
 api:

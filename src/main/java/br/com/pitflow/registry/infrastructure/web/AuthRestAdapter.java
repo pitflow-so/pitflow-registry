@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/registry/auth")
+@RequestMapping("/auth")
 @Tag(name = "Registry - Authentication", description = "Endpoint para login de mecânicos")
 public class AuthRestAdapter {
 
