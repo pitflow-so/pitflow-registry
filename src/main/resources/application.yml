@@ -44,5 +44,5 @@ management:
       export:
         enabled: ${DATADOG_ENABLED:false}
         api-key: ${DATADOG_API_KEY:}
-        uri: https://api.us5.datadoghq.com
+        uri: https://api.datadoghq.com
         step: 30s
