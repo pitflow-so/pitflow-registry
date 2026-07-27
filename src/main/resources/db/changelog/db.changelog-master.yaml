@@ -11,3 +11,5 @@ databaseChangeLog:
       file: db/changelog/migrations/008-alter-table-customer-add-status.sql
   - include:
       file: db/changelog/migrations/009-insert-default-customers.sql
+  - include:
+      file: db/changelog/migrations/010-insert-default-vehicle.sql
