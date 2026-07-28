@@ -1,0 +1,42 @@
+services:
+  registry-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${DB_NAME:-pitflow-registry-db}
+      POSTGRES_USER: ${DB_USERNAME:-pitflow_registry}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-pitflow_registry_local}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - registry-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+  registry:
+    build:
+      context: .
+    environment:
+      DB_HOST: registry-db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-pitflow-registry-db}
+      DB_USERNAME: ${DB_USERNAME:-pitflow_registry}
+      DB_PASSWORD: ${DB_PASSWORD:-pitflow_registry_local}
+      JWT_SECRET: ${JWT_SECRET:-364161b203a948480795c643b01859942a0094072f883b27b407a51801311099}
+      DATADOG_ENABLED: "false"
+    ports:
+      - "${HTTP_PORT:-18081}:8080"
+    depends_on:
+      registry-db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:8080/registry/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 18
+      start_period: 30s
+
+volumes:
+  registry-postgres-data:

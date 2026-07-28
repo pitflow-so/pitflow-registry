@@ -38,6 +38,17 @@ jobs:
       - name: Build and test
         run: ./mvnw -B clean verify
 
+      - name: Publish coverage evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: registry-jacoco-${{ github.sha }}
+          path: |
+            target/site/jacoco/
+            target/surefire-reports/
+          if-no-files-found: error
+          retention-days: 30
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
