@@ -7,6 +7,8 @@ Microserviço responsável pelo cadastro e autenticação do domínio Registry:
 - mecânicos;
 - autenticação e emissão de JWT para mecânicos.
 
+A qualidade do código é acompanhada continuamente pelo SonarQube Cloud.
+
 ## Stack
 
 - Java 21;
